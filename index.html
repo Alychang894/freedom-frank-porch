@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freedom Frank — The Porch | Vote on the Next Frank's Law</title>
+<meta name="description" content="The next Frank's Law ain't mine. It's yours. Cast your ballot, get the free Countdown Packet, and count down to December 3rd on the Porch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Libre+Franklin:ital,wght@0,400;0,600;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="#top">FREEDOM&nbsp;FRANK</a>
+  <nav class="site-nav" aria-label="Porch sections">
+    <a href="#ballot">The Ballot</a>
+    <a href="#why">Why Dec. 3</a>
+    <a href="#count">The Count</a>
+    <a href="#pledge">Trades Pledge</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- ============ 1. HERO ============ -->
+  <section class="hero" aria-label="Welcome to the Porch">
+    <figure class="hero-photo">
+      <img src="assets/hero.jpg" alt="Freedom Frank on his porch at night, holding up the big countdown calendar board — every day from October 1st to December 3rd, with DEC 3 circled in red." fetchpriority="high">
+    </figure>
+    <div class="hero-card">
+      <p class="kicker">The Porch · Est. for the count</p>
+      <h1>THE NEXT FRANK'S LAW AIN'T MINE. IT'S YOURS.</h1>
+      <div class="countdown" role="timer" aria-label="Countdown to December 3, 2026">
+        <div class="cd-cell"><span id="cd-days">--</span><small>Days</small></div>
+        <div class="cd-cell"><span id="cd-hours">--</span><small>Hours</small></div>
+        <div class="cd-cell"><span id="cd-mins">--</span><small>Minutes</small></div>
+        <div class="cd-cell"><span id="cd-secs">--</span><small>Seconds</small></div>
+      </div>
+      <p class="cd-label" id="cd-label">until the count ends — <strong>December 3, 2026</strong></p>
+      <p class="hero-sub">Vote on the next Frank's Law. Frank reads 5 voters' names on the Porch. The winning Law gets printed. Your email is your ballot — free, always.</p>
+      <a class="btn btn-red" href="#ballot">🗳 Cast your ballot</a>
+    </div>
+  </section>
+
+  <!-- ============ 2. THE BALLOT ============ -->
+  <section class="section" id="ballot">
+    <div class="wrap">
+      <h2><span class="h-num">Step onto the porch</span>THE BALLOT</h2>
+      <p class="lede">Every week I hand down a new Frank's Law, and America argues about it in the comments like it's a courtroom. Fine. Let's make it official. Around here the people get a vote, their names get read out loud on the Porch, and the Law that wins gets printed — so your grandkids can argue about it too.</p>
+
+      <!--
+        ============================================================
+        MAILERLITE WIRING — *** PLACEHOLDER, NOT LIVE YET ***
+        ============================================================
+        This form is fully built and validated, but it does NOT yet
+        deliver signups anywhere. To wire it live:
+
+        1. In MailerLite, create an embedded signup form attached to
+           the group "Porch - Main" (id 201157819664172651) with the
+           fields: email, name, and the custom field "Ballot choice".
+           Lane opt-ins map to groups: Countdown 201157834936681683,
+           Frank's Law Letter 201157869256573973, Trades 201157879582950726.
+           Joining Porch - Main fires the welcome workflow
+           (id 201158336894207617) automatically.
+        2. Paste that form's POST endpoint into MAILERLITE_FORM_ACTION
+           at the top of app.js (the submit handler in app.js builds
+           the payload: email, name, ballot_choice, groups[]).
+        3. Joining is blocked today ONLY because no working MailerLite
+           API credential is reachable from the build environment
+           (vault connector custom.mailerlite is registered to the
+           legacy host api.mailerlite.com; the real API at
+           connect.mailerlite.com returns 401). No token may ever be
+           pasted into this page's code.
+        ============================================================
+      -->
+      <form id="ballot-form" class="card form-card" method="post" action="" novalidate>
+        <fieldset>
+          <legend>Pick the next Frank's Law</legend>
+          <div class="law-grid" id="law-grid"><!-- options injected by app.js --></div>
+        </fieldset>
+
+        <div class="pitch-wrap" id="pitch-wrap" hidden>
+          <label for="pitch-text">Your Frank's Law — say it like Frank would</label>
+          <textarea id="pitch-text" name="pitch" rows="3" placeholder="One sentence. Plain English. No lawyer talk."></textarea>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="first-name">First name</label>
+            <input id="first-name" name="first_name" type="text" autocomplete="given-name" required placeholder="So Frank can read it on the Porch">
+          </div>
+          <div class="field">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+          </div>
+        </div>
+        <p class="field-note">Your email <em>is</em> your ballot — it's how Frank knows the vote's real, and how your name gets on the Porch Roll list.</p>
+
+        <fieldset class="lanes">
+          <legend>Put me down for more of the porch <span class="opt">(optional)</span></legend>
+          <label class="check"><input type="checkbox" name="lane" value="countdown"> <span><strong>Countdown</strong> — the road to Dec. 3, and the free Countdown Packet.</span></label>
+          <label class="check"><input type="checkbox" name="lane" value="franks-law"> <span><strong>Frank's Law Letter</strong> — the weekly Porch Letter and the next ballot.</span></label>
+          <label class="check"><input type="checkbox" name="lane" value="trades"> <span><strong>Trades</strong> — for my kids and grandkids. Learn a trade, own the truck.</span></label>
+        </fieldset>
+
+        <button class="btn btn-red btn-big" type="submit">CAST YOUR BALLOT</button>
+        <p class="trust">One Porch Letter a week. No spam, no selling your info, unsubscribe in one tap. If they ever take Frank down, this list is how he still finds you.</p>
+        <p class="form-status" id="ballot-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="card success-card" id="ballot-success" hidden>
+        <h3>Ballot counted. Welcome to the Porch. 🪑</h3>
+        <p>Your vote's in the pile, same as everybody's — fair's fair. Check your inbox: your first Porch letter is on its way, and your free Countdown Packet is inside it. Put it on the fridge.</p>
+        <p>Five voters get their names read out loud every week. Keep showing up and one of them's yours.</p>
+        <p class="signoff">I'm Freedom Frank, and I approve this message.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. WHY DEC. 3 ============ -->
+  <section class="section section-alt" id="why">
+    <div class="wrap split">
+      <div>
+        <h2><span class="h-num">The story</span>WHY DEC. 3</h2>
+        <p class="body-copy">They gave you a number. It was wrong. Fourteen Americans never came home from Fort Hood, and Washington called it 'workplace violence.' Frank counts all 14 — and on December 3, 2026, the count ends. This porch is how nobody gets away with making you forget.</p>
+        <p class="body-copy">That's why the calendar on the porch runs from October 1st to December 3rd, and why every day gets said out loud. A country that remembers beats a government that files things away.</p>
+        <a class="btn btn-dark" href="#ballot">Count me in — cast a ballot</a>
+      </div>
+      <figure class="photo">
+        <img src="assets/gate.jpg" alt="Frank, arms crossed, standing at the main gate of Fort Hood at sunrise, the FORT HOOD sign and the flag above him." loading="lazy">
+        <figcaption class="typewriter">Day 53 — the gate. We say their names out loud.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ 4. THE COUNT ============ -->
+  <section class="section" id="count">
+    <div class="wrap split reverse">
+      <div>
+        <h2><span class="h-num">The offer</span>THE COUNT</h2>
+        <p class="body-copy">THE COUNT — a free printable countdown packet is coming for everyone on the list. All 57 days, Day 56 to Day 0, and the names page — the 13 they counted, and the 14th they didn't. Print it, put it on the fridge, and count down with us to December 3rd.</p>
+        <p class="body-copy">It's free. All it costs you is showing up.</p>
+        <a class="btn btn-red" href="https://freedom-frank-shop.fourthwall.com/products/the-count-freedom-frank-countdown-packet" target="_blank" rel="noopener">Get the Countdown Packet — free</a>
+        <p class="field-note">On the list already? The packet link rides inside your Porch letters too.</p>
+      </div>
+      <figure class="photo">
+        <img src="assets/day0.jpg" alt="Frank, arms crossed, at the main gate of Fort Hood in morning light, the flag at full staff — Day 0." loading="lazy">
+        <figcaption class="typewriter">Day 0 — December 3, 2026. Be watching.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ 5. TRADES PLEDGE ============ -->
+  <section class="section pledge-band" id="pledge">
+    <div class="wrap">
+      <h2><span class="h-num light">Frank's flagship</span>THE TRADES PLEDGE</h2>
+      <p class="lede light">College isn't the only ladder. Frank's flagship sermon: a kid who can fix things will never be broke. The Trades Pledge is how the porch says it together — for the kids and grandkids coming up behind us.</p>
+      <blockquote class="pledge-quote">
+        <p>I work with my hands, or I honor the ones who do.<br>
+        I won't mock a trade to sell a degree.<br>
+        A kid who can fix things will never be broke.<br>
+        Somebody's gotta build the country — might as well be ours.</p>
+        <cite>— The Trades Pledge, from the porch</cite>
+      </blockquote>
+      <form id="pledge-form" class="pledge-form" method="post" action="" novalidate>
+        <div class="field">
+          <label for="pledge-name">Your name — sign it like you mean it</label>
+          <input id="pledge-name" name="pledge_name" type="text" autocomplete="name" required placeholder="Your name for the board">
+        </div>
+        <div class="field">
+          <label for="pledge-email">Email address</label>
+          <input id="pledge-email" name="pledge_email" type="email" autocomplete="email" required placeholder="you@example.com">
+        </div>
+        <button class="btn btn-red" type="submit">SIGN THE PLEDGE</button>
+        <p class="form-status light" id="pledge-status" role="status" aria-live="polite"></p>
+      </form>
+      <div class="success-card dark" id="pledge-success" hidden>
+        <h3>Signed. Your name's on the board.</h3>
+        <p>That's the whole transaction — no dues, no pitch. When Frank talks trades, he's talking to a board with your name on it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. FOLLOW ============ -->
+  <section class="section" id="follow">
+    <div class="wrap">
+      <h2><span class="h-num">Everywhere Frank is</span>FOLLOW FRANK</h2>
+      <div class="follow-row">
+        <a class="follow-btn" href="https://facebook.com/profile.php?id=61594925650943" target="_blank" rel="noopener">Facebook</a>
+        <a class="follow-btn" href="https://tiktok.com/@freedomfrank.official" target="_blank" rel="noopener">TikTok</a>
+        <a class="follow-btn" href="https://instagram.com/freedomfrankusa" target="_blank" rel="noopener">Instagram</a>
+        <a class="follow-btn" href="https://youtube.com/channel/UCTblbd5McKyNl9RhQAjyaeg" target="_blank" rel="noopener">YouTube</a>
+        <a class="follow-btn" href="https://x.com/FreedomFrankUSA" target="_blank" rel="noopener">X</a>
+      </div>
+      <p class="field-note center">Facebook's where the crowd lives — start there. The list is where Frank can't be taken down.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 7. FOOTER ============ -->
+<footer class="site-footer">
+  <p class="footer-sign">I APPROVE THIS MESSAGE. — FRANK</p>
+  <div class="footer-socials">
+    <a href="https://facebook.com/profile.php?id=61594925650943" target="_blank" rel="noopener">Facebook</a>
+    <a href="https://instagram.com/freedomfrankusa" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://tiktok.com/@freedomfrank.official" target="_blank" rel="noopener">TikTok</a>
+    <a href="https://x.com/FreedomFrankUSA" target="_blank" rel="noopener">X</a>
+    <a href="https://youtube.com/channel/UCTblbd5McKyNl9RhQAjyaeg" target="_blank" rel="noopener">YouTube</a>
+  </div>
+  <p class="footer-small">Freedom Frank · The Porch · The count ends December 3, 2026. Be watching.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

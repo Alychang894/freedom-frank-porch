@@ -1,0 +1,149 @@
+/* Freedom Frank — The Porch. Red / black / cream. */
+:root{
+  --red:#A61721;
+  --red-dark:#7f1018;
+  --cream:#FAF6EC;
+  --paper:#FFFDF6;
+  --ink:#17130E;
+  --ink-soft:#3A332A;
+  --dim:#6E6353;
+  --line:#D8CDB4;
+  --band:#1D1710;
+  --band-text:#F3EAD3;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--cream);color:var(--ink);
+  font-family:"Libre Franklin",system-ui,sans-serif;
+  font-size:18px;line-height:1.6;
+}
+h1,h2,h3,.brand,.btn,.follow-btn{font-family:"Oswald",sans-serif}
+.typewriter,.kicker,.cd-label,figcaption{font-family:"Special Elite",monospace}
+img{max-width:100%;display:block}
+a{color:var(--red)}
+
+/* header */
+.site-header{
+  position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;
+  padding:.8rem 1.25rem;background:var(--cream);border-bottom:3px solid var(--ink);
+}
+.brand{font-size:1.5rem;font-weight:700;letter-spacing:.06em;color:var(--ink);text-decoration:none}
+.site-nav a{margin-left:1.1rem;color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem}
+.site-nav a:hover{color:var(--red)}
+@media(max-width:640px){.site-nav{display:none}}
+
+/* hero */
+.hero{position:relative;padding:0 1rem 3.5rem;max-width:1200px;margin:0 auto}
+.hero-photo img{width:100%;height:min(72vh,760px);object-fit:cover;object-position:center 22%;border-bottom:4px solid var(--ink)}
+.hero-card{
+  position:relative;background:var(--paper);border:3px solid var(--ink);
+  box-shadow:10px 10px 0 var(--red);
+  max-width:860px;margin:-7.5rem auto 0;padding:2rem 2rem 2.25rem;text-align:center;
+}
+@media(max-width:640px){.hero-card{margin-top:-3.5rem;padding:1.5rem 1.1rem}}
+.kicker{text-transform:uppercase;letter-spacing:.14em;color:var(--red);font-size:.95rem;margin:0 0 .5rem}
+.hero-card h1{font-size:clamp(2.3rem,6vw,4.2rem);line-height:1.04;font-weight:700;margin:.2rem 0 1.2rem;text-transform:uppercase}
+.countdown{display:flex;justify-content:center;gap:.6rem;margin:0 auto .4rem;flex-wrap:wrap}
+.cd-cell{background:var(--ink);color:var(--cream);min-width:84px;padding:.55rem .4rem .45rem;border-radius:4px}
+.cd-cell span{font-family:"Oswald",sans-serif;font-size:2rem;font-weight:700;display:block;line-height:1}
+.cd-cell small{text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;color:#E7DCC2}
+.cd-label{margin:.35rem 0 1rem;color:var(--ink-soft)}
+.hero-sub{font-size:1.13rem;max-width:620px;margin:0 auto 1.4rem}
+
+/* buttons */
+.btn{
+  display:inline-block;text-decoration:none;text-transform:uppercase;letter-spacing:.05em;
+  font-weight:600;font-size:1.05rem;padding:.8rem 1.6rem;border:3px solid var(--ink);cursor:pointer;
+}
+.btn-red{background:var(--red);color:#fff}
+.btn-red:hover{background:var(--red-dark)}
+.btn-dark{background:var(--ink);color:var(--cream)}
+.btn-big{width:100%;font-size:1.25rem;padding:1rem}
+
+/* sections */
+.section{padding:4rem 1rem}
+.section-alt{background:#F1E9D6;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink)}
+.wrap{max-width:1020px;margin:0 auto}
+h2{font-size:clamp(1.9rem,4.5vw,3rem);text-transform:uppercase;line-height:1.05;margin:0 0 1rem}
+.h-num{display:block;font-family:"Special Elite",monospace;font-size:.95rem;letter-spacing:.14em;color:var(--red);text-transform:uppercase;margin-bottom:.4rem}
+.h-num.light{color:#E8B4B8}
+.lede{font-size:1.15rem;max-width:720px}
+.body-copy{margin:0 0 1.1rem;max-width:640px}
+.split{display:grid;grid-template-columns:1.05fr .95fr;gap:2.5rem;align-items:center}
+.split.reverse{direction:rtl}.split.reverse>*{direction:ltr}
+@media(max-width:820px){.split{grid-template-columns:1fr}}
+.photo img{border:3px solid var(--ink);box-shadow:8px 8px 0 rgba(23,19,14,.85);width:100%;height:auto}
+.photo figcaption{margin-top:.9rem;color:var(--ink-soft);font-size:.95rem}
+
+/* cards + forms */
+.card{background:var(--paper);border:3px solid var(--ink);padding:1.75rem;margin-top:2rem}
+.form-card fieldset{border:0;padding:0;margin:0 0 1.25rem}
+.form-card legend{font-family:"Oswald",sans-serif;font-size:1.3rem;font-weight:600;text-transform:uppercase;margin-bottom:.8rem}
+.law-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+@media(max-width:640px){.law-grid{grid-template-columns:1fr}}
+.law-option{display:block;cursor:pointer}
+.law-option input{position:absolute;opacity:0;pointer-events:none}
+.law-card{border:2px solid var(--line);background:#fff;padding:.7rem .9rem;height:100%;transition:border-color .15s}
+.law-option:hover .law-card{border-color:var(--ink)}
+.law-option input:checked + .law-card{border-color:var(--red);box-shadow:inset 0 0 0 1px var(--red);background:#FBF3E4}
+.law-option input:focus-visible + .law-card{outline:3px solid var(--ink);outline-offset:2px}
+.law-num{font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--red);font-size:.85rem;display:flex;justify-content:space-between}
+.law-pick{color:var(--ink);display:none}
+.law-option input:checked + .law-card .law-pick{display:inline}
+.law-title{display:block;font-weight:700;font-size:1.08rem;margin-top:.1rem}
+.law-hook{display:block;font-style:italic;color:var(--dim);font-size:.93rem}
+.field{margin-bottom:1rem}
+.field label{display:block;font-weight:600;margin-bottom:.35rem}
+.field input,.field textarea,.pledge-form input{
+  width:100%;padding:.75rem .85rem;font:inherit;font-size:1rem;background:#fff;
+  border:2px solid var(--ink);border-radius:2px;
+}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:640px){.field-row{grid-template-columns:1fr}}
+.pitch-wrap{margin-bottom:1.25rem}
+.pitch-wrap label{display:block;font-weight:600;margin-bottom:.35rem}
+.pitch-wrap textarea{width:100%;padding:.75rem .85rem;font:inherit;border:2px solid var(--ink);background:#fff}
+.field-note{color:var(--dim);font-size:.95rem}
+.field-note.center{text-align:center;margin-top:1rem}
+.lanes label.check{display:flex;gap:.6rem;align-items:flex-start;padding:.45rem 0;cursor:pointer;font-weight:400}
+.lanes input{margin-top:.3rem;width:1.15rem;height:1.15rem;accent-color:var(--red)}
+.lanes .opt{color:var(--dim);font-family:"Libre Franklin",sans-serif;text-transform:none;letter-spacing:0;font-size:.9rem}
+.trust{margin-top:1rem;font-size:.95rem;color:var(--ink-soft);text-align:center}
+.form-status{margin-top:.8rem;font-weight:600;text-align:center;min-height:1.4em}
+.form-status.error{color:var(--red)}
+.form-status.light{color:var(--band-text);text-align:left}
+.success-card h3{font-size:1.6rem;text-transform:uppercase;margin:.2rem 0 .6rem}
+.signoff{font-family:"Special Elite",monospace;margin-bottom:0}
+
+/* pledge */
+.pledge-band{background:var(--band);color:var(--band-text)}
+.pledge-band h2{color:var(--band-text)}
+.lede.light{color:#E9DFC9}
+.pledge-quote{
+  border-left:5px solid var(--red);background:#241C11;margin:2rem 0;padding:1.4rem 1.6rem;
+}
+.pledge-quote p{
+  font-family:"Oswald",sans-serif;font-size:clamp(1.15rem,2.6vw,1.55rem);text-transform:uppercase;
+  line-height:1.55;letter-spacing:.03em;margin:0;
+}
+.pledge-quote cite{display:block;margin-top:.8rem;font-family:"Libre Franklin",sans-serif;font-style:normal;color:#CBBFA5;font-size:.95rem}
+.pledge-form{display:grid;grid-template-columns:1fr 1fr auto;gap:1rem;align-items:end;max-width:900px}
+@media(max-width:820px){.pledge-form{grid-template-columns:1fr}}
+.pledge-form label{display:block;font-weight:600;margin-bottom:.35rem}
+.success-card.dark{background:#241C11;border-color:#6B5B3E;color:var(--band-text);margin-top:1.5rem}
+
+/* follow */
+.follow-row{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.5rem}
+.follow-btn{
+  background:var(--ink);color:var(--cream);text-decoration:none;padding:.8rem 1.5rem;
+  font-size:1.05rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;border:3px solid var(--ink);
+}
+.follow-btn:hover{background:var(--red);border-color:var(--red)}
+
+/* footer */
+.site-footer{background:var(--ink);color:var(--cream);text-align:center;padding:2.75rem 1rem 2.25rem;margin-top:0}
+.footer-sign{font-family:"Oswald",sans-serif;font-size:clamp(1.4rem,4vw,2.2rem);font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin:0 0 1rem}
+.footer-socials a{color:var(--cream);margin:0 .6rem;font-weight:600;text-decoration:none}
+.footer-socials a:hover{color:#E8B4B8}
+.footer-small{color:#B9AC93;font-size:.9rem;margin-top:1.1rem}
