@@ -47,12 +47,12 @@ tickCountdown();
 setInterval(tickCountdown, 1000);
 
 /* ---------- Ballot options (from the approved prototype / Phase 0) ---------- */
-/* Weekly ballot (Ben's call, Oct 12, 2026): show only THREE Laws at a time —
-   the same three for everyone all week. Votes are tallied at week's end,
-   the winner gets printed, and a fresh three rotate in from BALLOT_OPTIONS.
-   To rotate: change WEEKLY_FEATURED to the next three keys. The pitch card
-   always shows alongside the three. */
-const WEEKLY_FEATURED = ["property-taxes", "college", "wfh"]; // Week of Oct 12, 2026
+/* Weekly ballot (Ben's calls, Oct 12, 2026): THREE options total — TWO
+   featured Laws from us + the Pitch Your Own card. Same two for everyone
+   all week. Votes are tallied at week's end, the winner gets printed, and
+   a fresh pair rotates in from BALLOT_OPTIONS. To rotate: change
+   WEEKLY_FEATURED to the next two keys. */
+const WEEKLY_FEATURED = ["property-taxes", "college"]; // Week of Oct 12, 2026
 const BALLOT_OPTIONS = [
   { key: "property-taxes", law: "#009", title: "Property Taxes",   hook: "You rent from the county" },
   { key: "college",        law: "#005", title: "College Degrees",  hook: "Skip college, learn a trade" },
