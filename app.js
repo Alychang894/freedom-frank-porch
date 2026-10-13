@@ -78,7 +78,7 @@ const lawGrid = document.getElementById("law-grid");
 const shownOptions = BALLOT_OPTIONS.filter((o) => o.key === "pitch" || WEEKLY_FEATURED.includes(o.key));
 lawGrid.innerHTML = shownOptions.map((o) => `
   <label class="law-option">
-    <input type="radio" name="law" value="${o.key}" ${o.key === "property-taxes" ? "checked" : ""}>
+    <input type="radio" name="law" value="${o.key}">
     <span class="law-card">
       <span class="law-num">Frank's Law ${o.law} <span class="law-pick">✓ Your pick</span></span>
       <span class="law-title">${o.title}</span>
@@ -86,9 +86,55 @@ lawGrid.innerHTML = shownOptions.map((o) => `
     </span>
   </label>`).join("");
 
+/* Two-step ballot (funnel study, Oct 12, 2026): Step 1 is the vote itself —
+   the commitment. Step 2 (name/email/stack/button) stays locked until a Law
+   is picked, so the email ask lands after the visitor has already said yes
+   to something. */
+const step2 = document.getElementById("step2");
+const step2Fields = step2.querySelectorAll("input, textarea, select, button");
+step2Fields.forEach((f) => { f.disabled = true; });
+
 lawGrid.addEventListener("change", () => {
   const picked = document.querySelector('input[name="law"]:checked');
   document.getElementById("pitch-wrap").hidden = !(picked && picked.value === "pitch");
+  if (picked) {
+    step2.classList.remove("locked");
+    step2Fields.forEach((f) => { f.disabled = false; });
+    document.getElementById("step2-note").textContent = "✓ Law picked. Now make it count — where's Frank sending your packet?";
+    if (picked.value === "pitch") {
+      document.getElementById("pitch-text").focus();
+    } else if (window.innerWidth <= 820) {
+      document.getElementById("step2-head-anchor").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+});
+
+/* Sticky mobile CTA bar: appears after the hero, hides while the ballot is
+   on screen and for good once the ballot is counted. */
+const stickyCta = document.getElementById("sticky-cta");
+let ballotInView = false;
+let ballotDone = false;
+new IntersectionObserver((entries) => {
+  ballotInView = entries[0].isIntersecting;
+  updateSticky();
+}, { threshold: 0.08 }).observe(document.getElementById("ballot"));
+function updateSticky() {
+  const show = !ballotDone && !ballotInView && window.scrollY > 520;
+  stickyCta.hidden = !show;
+  document.body.classList.toggle("sticky-on", show);
+}
+window.addEventListener("scroll", updateSticky, { passive: true });
+updateSticky();
+
+/* Thank-you share: copy-link button */
+document.getElementById("share-copy").addEventListener("click", async () => {
+  const status = document.getElementById("share-status");
+  try {
+    await navigator.clipboard.writeText("https://freedomfrankusa.com");
+    status.textContent = "Link copied — go recruit a neighbor.";
+  } catch (err) {
+    status.textContent = "Copy didn't take — the link is freedomfrankusa.com.";
+  }
 });
 
 /* ---------- Shared submit path ---------- */
@@ -160,6 +206,8 @@ document.getElementById("ballot-form").addEventListener("submit", async (e) => {
   const ok = await submitToMailerLite({ email, name: firstName, ballot_choice: ballotChoice, groups }, status);
   if (ok) {
     form.hidden = true;
+    ballotDone = true;
+    updateSticky();
     document.getElementById("ballot-success").hidden = false;
     document.getElementById("ballot-success").scrollIntoView({ behavior: "smooth", block: "center" });
   }
