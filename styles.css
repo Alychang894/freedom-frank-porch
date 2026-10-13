@@ -117,13 +117,17 @@ h2{font-size:clamp(1.9rem,4.5vw,3rem);text-transform:uppercase;line-height:1.05;
 .vs-title{font-family:"Oswald",sans-serif;font-size:1.35rem;font-weight:700;text-transform:uppercase;color:var(--red);margin:0 0 .35rem}
 .vs-sub{margin:0 0 .8rem;color:var(--ink-soft)}
 .vs-list{list-style:none;margin:0 0 .8rem;padding:0}
-.vs-list li{display:flex;justify-content:space-between;align-items:center;gap:.8rem;padding:.5rem 0;border-bottom:1px dashed #d8d2c2}
+.vs-list li{display:flex;justify-content:space-between;align-items:center;gap:.6rem;padding:.7rem 0;border-bottom:1px dashed #d8d2c2}
 .vs-list li:last-child{border-bottom:0}
 .vs-list li::before{content:"✓";color:var(--red);font-weight:700;margin-right:.15rem}
-.vs-thumb{width:62px;height:62px;object-fit:cover;border-radius:8px;flex:none;border:1px solid #d8d2c2}
+.vs-thumb{width:118px;height:118px;object-fit:cover;border-radius:10px;flex:none;border:1px solid #d8d2c2}
+@media (max-width:480px){.vs-thumb{width:94px;height:94px}}
 .vs-item{flex:1}
-.vs-value{font-family:"Oswald",sans-serif;font-weight:600;color:var(--red);white-space:nowrap}
-.vs-total{margin:0;font-size:1.05rem}
+.vs-value{font-family:"Oswald",sans-serif;font-size:1.7rem;font-weight:700;white-space:nowrap;color:var(--ink)}
+.vs-value s{color:var(--dim);font-weight:600}
+.vs-free{color:var(--red);font-weight:700;margin-left:.35rem}
+.vs-total .vs-free{margin-left:.1rem}
+.vs-total{margin:0;font-size:1.25rem}
 .vs-total s{color:var(--dim)}
 .vs-check{display:flex;gap:.6rem;align-items:flex-start;padding:.7rem .8rem;margin:0 0 1.25rem;border:2px solid var(--ink);border-radius:10px;background:#fff;cursor:pointer;font-size:1.05rem}
 .vs-check input{margin-top:.25rem;width:1.3rem;height:1.3rem;accent-color:var(--red);flex:none}
