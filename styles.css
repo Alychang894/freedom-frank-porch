@@ -104,6 +104,8 @@ h2{font-size:clamp(1.9rem,4.5vw,3rem);text-transform:uppercase;line-height:1.05;
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 @media(max-width:640px){.field-row{grid-template-columns:1fr}}
 .pitch-wrap{margin-bottom:1.25rem}
+.law-card .pitch-wrap{margin:.75rem 0 .15rem;text-align:left;cursor:text;animation:pitchIn .25s ease}
+@keyframes pitchIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
 .pitch-wrap label{display:block;font-weight:600;margin-bottom:.35rem}
 .pitch-wrap textarea{width:100%;padding:.75rem .85rem;font:inherit;border:2px solid var(--ink);background:#fff}
 .field-note{color:var(--dim);font-size:.95rem}
