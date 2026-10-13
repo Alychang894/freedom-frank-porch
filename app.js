@@ -46,6 +46,12 @@ tickCountdown();
 setInterval(tickCountdown, 1000);
 
 /* ---------- Ballot options (from the approved prototype / Phase 0) ---------- */
+/* Weekly ballot (Ben's call, Oct 12, 2026): show only THREE Laws at a time —
+   the same three for everyone all week. Votes are tallied at week's end,
+   the winner gets printed, and a fresh three rotate in from BALLOT_OPTIONS.
+   To rotate: change WEEKLY_FEATURED to the next three keys. The pitch card
+   always shows alongside the three. */
+const WEEKLY_FEATURED = ["property-taxes", "college", "wfh"]; // Week of Oct 12, 2026
 const BALLOT_OPTIONS = [
   { key: "property-taxes", law: "#009", title: "Property Taxes",   hook: "You rent from the county" },
   { key: "college",        law: "#005", title: "College Degrees",  hook: "Skip college, learn a trade" },
@@ -68,7 +74,8 @@ const LANE_GROUPS = {
 const PORCH_MAIN_GROUP = "201157819664172651";
 
 const lawGrid = document.getElementById("law-grid");
-lawGrid.innerHTML = BALLOT_OPTIONS.map((o) => `
+const shownOptions = BALLOT_OPTIONS.filter((o) => o.key === "pitch" || WEEKLY_FEATURED.includes(o.key));
+lawGrid.innerHTML = shownOptions.map((o) => `
   <label class="law-option">
     <input type="radio" name="law" value="${o.key}" ${o.key === "property-taxes" ? "checked" : ""}>
     <span class="law-card">
