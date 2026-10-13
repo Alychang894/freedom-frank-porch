@@ -86,6 +86,16 @@ lawGrid.innerHTML = shownOptions.map((o) => `
     </span>
   </label>`).join("");
 
+/* Pitch field lives INSIDE the "yours" card (Alyssa's call, Oct 12, 2026):
+   selecting Pitch Your Own Law expands the text box right inside the card
+   so the voter types immediately — no scrolling to a separate block below. */
+const pitchWrapEl = document.getElementById("pitch-wrap");
+const pitchCardEl = lawGrid.querySelector('input[value="pitch"]')?.closest(".law-option")?.querySelector(".law-card");
+if (pitchCardEl && pitchWrapEl) {
+  pitchCardEl.appendChild(pitchWrapEl);
+  pitchWrapEl.addEventListener("click", (e) => e.stopPropagation());
+}
+
 /* Two-step ballot (funnel study, Oct 12, 2026): Step 1 is the vote itself —
    the commitment. Step 2 (name/email/stack/button) stays locked until a Law
    is picked, so the email ask lands after the visitor has already said yes
