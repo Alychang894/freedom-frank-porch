@@ -171,6 +171,17 @@ h2{font-size:clamp(1.9rem,4.5vw,3rem);text-transform:uppercase;line-height:1.05;
 .footer-socials a:hover{color:#E8B4B8}
 .footer-small{color:#B9AC93;font-size:.9rem;margin-top:1.1rem}
 
+/* Gold-standard pass (Oct 12, 2026): the fourteen names roll in Why Dec. 3,
+   the packet facts line + booklet crop in The Count */
+.names-roll{margin:1.75rem 0;background:var(--paper);border:2px solid var(--ink);border-top:5px solid var(--red);padding:1.25rem 1.4rem 1.15rem;max-width:640px}
+.names-head{font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--red);font-size:1rem;margin:0 0 .7rem}
+.names-list{list-style:none;margin:0;padding:0}
+.names-list li{font-family:"Oswald",sans-serif;font-weight:500;text-transform:uppercase;letter-spacing:.05em;font-size:1.02rem;line-height:1.5;padding:.22rem 0;border-bottom:1px dashed var(--line)}
+.names-list li:last-child{border-bottom:0}
+.names-14th{font-family:"Special Elite",monospace;color:var(--ink-soft);font-size:.98rem;margin:.95rem 0 0}
+.packet-facts{font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.92rem;color:var(--ink-soft);margin:.95rem 0 .15rem}
+.photo-booklet img{aspect-ratio:4/5;object-fit:cover;object-position:center}
+
 /* Funnel upgrades (Oct 12, 2026, from the funnel study): two-step ballot,
    sticky mobile CTA, thank-you extras */
 .step-head{font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--red);font-size:1.15rem;margin:1.6rem 0 .2rem}
