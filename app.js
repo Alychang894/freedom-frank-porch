@@ -2,32 +2,23 @@
 "use strict";
 
 /* ============================================================
-   MAILERLITE WIRING — *** PLACEHOLDER, NOT LIVE YET ***
+   MAILERLITE WIRING — LIVE (wired Oct 12, 2026)
    ------------------------------------------------------------
-   No working MailerLite API credential is reachable from the
-   build environment, so no real embedded form could be created:
-   - API base https://connect.mailerlite.com returns 401 with the
-     vault surrogate (connector custom.mailerlite is registered
-     to the legacy host api.mailerlite.com only, so the token
-     never swaps for the real API host).
-   - The legacy host serves Classic endpoints only (404 here).
-
-   TO GO LIVE (one step, no other code changes):
-   1. Create an embedded signup form in MailerLite attached to
-      group "Porch - Main" (201157819664172651) with fields
-      email / name / "Ballot choice", plus lane groups:
-      Countdown 201157834936681683 · Frank's Law Letter
-      201157869256573973 · Trades 201157879582950726.
-      Joining Porch - Main fires welcome workflow 201158336894207617.
-   2. Set MAILERLITE_FORM_ACTION below to that form's POST URL.
-   The submit handlers already build the intended payload
-   (email, name, ballot_choice, lanes[]) and show the Frank-voice
-   success state on a 2xx response. Field names should be matched
-   to the generated form's embed code at wiring time.
-   NEVER put an API token in this file — embedded-form POST URLs
-   are public by design; API keys are not.
+   Embedded form "Porch Ballot" (id 201169207867475059) in the
+   Freedom Frank USA MailerLite account, attached to group
+   "Porch - Main" (201157819664172651), double opt-in OFF.
+   Fields: email / name / ballot_choice. The submit handlers
+   POST fields[email], fields[name], fields[ballot_choice] and
+   groups[] (Porch - Main + any lane groups the voter checked:
+   Countdown 201157834936681683 · Frank's Law Letter
+   201157869256573973 · Trades 201157879582950726). Joining
+   Porch - Main fires welcome workflow 201158336894207617.
+   Verified end-to-end Oct 12, 2026: test signup landed Active
+   in both groups with name + ballot choice recorded.
+   This POST URL is public by design (it is the form's embed
+   endpoint) — never put an API token in this file.
    ============================================================ */
-const MAILERLITE_FORM_ACTION = ""; // ← PLACEHOLDER: paste the MailerLite form POST URL here
+const MAILERLITE_FORM_ACTION = "https://assets.mailerlite.com/jsonp/2706155/forms/201169207867475059/subscribe";
 
 /* ---------- Countdown to Dec 3, 2026, 00:00 America/New_York ---------- */
 /* December in New York is EST (UTC-5), so the target is 05:00 UTC. */
