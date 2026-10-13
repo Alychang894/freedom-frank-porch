@@ -15,15 +15,16 @@ Live store / packet: https://freedom-frank-shop.fourthwall.com
 - `assets/` — web-sized photos: `hero.jpg` (calendar board), `gate.jpg`
   (Fort Hood gate, Day 53), `day43.jpg` (Frank on the porch at night, Day 43).
 
-## MailerLite wiring — ⚠️ PLACEHOLDER (read before editing the form)
-The ballot and pledge forms are built and validated but **not yet delivering
-signups**. See the big comment blocks in `index.html` and at the top of
-`app.js`. To go live: create an embedded signup form in MailerLite attached to
-group **Porch - Main** (`201157819664172651`) with fields email / name /
-"Ballot choice" (lane groups: Countdown `201157834936681683`, Frank's Law
-Letter `201157869256573973`, Trades `201157879582950726`), then set
-`MAILERLITE_FORM_ACTION` in `app.js` to that form's POST URL. Joining
-Porch - Main fires the welcome workflow (`201158336894207617`).
+## MailerLite wiring — ✅ LIVE (wired Oct 12, 2026)
+The ballot and pledge forms deliver signups to MailerLite through the embedded
+form **"Porch Ballot"** (`201169207867475059`), attached to group **Porch -
+Main** (`201157819664172651`), double opt-in OFF, fields email / name /
+"Ballot choice". `MAILERLITE_FORM_ACTION` in `app.js` holds the form's POST
+endpoint; the submit handlers send `fields[email]`, `fields[name]`,
+`fields[ballot_choice]`, and `groups[]` (Porch - Main + checked lanes:
+Countdown `201157834936681683`, Frank's Law Letter `201157869256573973`,
+Trades `201157879582950726`). Joining Porch - Main fires the welcome workflow
+(`201158336894207617`). Verified end-to-end Oct 12, 2026.
 
 **Never put a MailerLite API token in this repo.** Embedded-form POST URLs are
 public by design; API keys are not.
