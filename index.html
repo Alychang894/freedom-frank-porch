@@ -44,7 +44,7 @@
         <div class="cd-cell"><span id="cd-secs">--</span><small>Seconds</small></div>
       </div>
       <p class="cd-label" id="cd-label">until the count ends — <strong>December 3, 2026</strong></p>
-      <p class="hero-sub">Vote on the next Frank's Law. Frank reads 5 voters' names on the Porch. The winning Law gets printed. Your email is your ballot — free, always.</p>
+      <p class="hero-sub">Your email is your vote for the next Frank's Law. The winning Law becomes a real design — and every week, Frank reads five voters' names out loud on the Porch. Free, always.</p>
       <a class="btn btn-red" href="#ballot">🗳 Cast your ballot</a>
     </div>
   </section>
@@ -74,7 +74,7 @@
       -->
       <form id="ballot-form" class="card form-card" method="post" action="" novalidate>
         <fieldset>
-          <legend>Pick the next Frank's Law — this week's ballot</legend>
+          <legend>Step 1 — Pick the next Frank's Law · this week's ballot</legend>
           <div class="law-grid" id="law-grid"><!-- options injected by app.js --></div>
           <p class="field-note">Two Laws from Frank, one slot for yours — that's the ballot. We tally at week's end, the winner gets printed, and a fresh pair goes up next week.</p>
         </fieldset>
@@ -84,6 +84,9 @@
           <textarea id="pitch-text" name="pitch" rows="3" placeholder="One sentence. Plain English. No lawyer talk."></textarea>
         </div>
 
+        <div id="step2" class="locked">
+        <p class="step-head" id="step2-head-anchor">Step 2 — Count it</p>
+        <p class="step2-note" id="step2-note">Pick your Law up top first — then this part opens up.</p>
         <div class="field-row">
           <div class="field">
             <label for="first-name">First name</label>
@@ -115,12 +118,21 @@
         <button class="btn btn-red btn-big" type="submit">COUNT MY BALLOT — JOIN THE PORCH</button>
         <p class="trust">One Porch Letter a week. No spam, no selling your info, unsubscribe in one tap. If they ever take Frank down, this list is how he still finds you.</p>
         <p class="form-status" id="ballot-status" role="status" aria-live="polite"></p>
+        </div><!-- /#step2 -->
       </form>
 
       <div class="card success-card" id="ballot-success" hidden>
         <h3>Ballot counted. Welcome to the Porch. 🪑</h3>
         <p>Your vote's in the pile, same as everybody's — fair's fair. Check your inbox: your first Porch letter is on its way, and your free Countdown Packet is inside it. Put it on the fridge.</p>
         <p>Five voters get their names read out loud every week. Keep showing up and one of them's yours.</p>
+        <p class="success-actions"><a class="btn btn-red" href="https://freedom-frank-shop.fourthwall.com/products/the-count-freedom-frank-countdown-packet" target="_blank" rel="noopener">Can't wait? Get the packet now</a></p>
+        <div class="share-row">
+          <span class="share-label">Bring a neighbor — every ballot counts:</span>
+          <a class="share-link" href="https://twitter.com/intent/tweet?text=I%20just%20voted%20on%20the%20next%20Frank%27s%20Law.%20Your%20turn%20%E2%80%94%20the%20ballot%27s%20on%20the%20Porch.&url=https%3A%2F%2Ffreedomfrankusa.com" target="_blank" rel="noopener">Post on X</a>
+          <a class="share-link" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ffreedomfrankusa.com" target="_blank" rel="noopener">Share on Facebook</a>
+          <button class="share-link share-copy" id="share-copy" type="button">Copy the link</button>
+          <span class="share-status" id="share-status" role="status" aria-live="polite"></span>
+        </div>
         <p class="signoff">I'm Freedom Frank, and I approve this message.</p>
       </div>
     </div>
@@ -219,6 +231,11 @@
   </div>
   <p class="footer-small">Freedom Frank · The Porch · The count ends December 3, 2026. Be watching.</p>
 </footer>
+
+<div id="sticky-cta" hidden>
+  <span class="sticky-text">The next Frank's Law ain't Frank's. It's yours.</span>
+  <a class="btn btn-red sticky-btn" href="#ballot">🗳 Cast your ballot</a>
+</div>
 
 <script src="app.js"></script>
 </body>
