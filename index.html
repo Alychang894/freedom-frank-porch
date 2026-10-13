@@ -52,27 +52,18 @@
 
       <!--
         ============================================================
-        MAILERLITE WIRING — *** PLACEHOLDER, NOT LIVE YET ***
+        MAILERLITE WIRING — LIVE (wired Oct 12, 2026)
         ============================================================
-        This form is fully built and validated, but it does NOT yet
-        deliver signups anywhere. To wire it live:
-
-        1. In MailerLite, create an embedded signup form attached to
-           the group "Porch - Main" (id 201157819664172651) with the
-           fields: email, name, and the custom field "Ballot choice".
-           Lane opt-ins map to groups: Countdown 201157834936681683,
-           Frank's Law Letter 201157869256573973, Trades 201157879582950726.
-           Joining Porch - Main fires the welcome workflow
-           (id 201158336894207617) automatically.
-        2. Paste that form's POST endpoint into MAILERLITE_FORM_ACTION
-           at the top of app.js (the submit handler in app.js builds
-           the payload: email, name, ballot_choice, groups[]).
-        3. Joining is blocked today ONLY because no working MailerLite
-           API credential is reachable from the build environment
-           (vault connector custom.mailerlite is registered to the
-           legacy host api.mailerlite.com; the real API at
-           connect.mailerlite.com returns 401). No token may ever be
-           pasted into this page's code.
+        This form delivers signups to the MailerLite embedded form
+        "Porch Ballot" (id 201169207867475059), attached to the group
+        "Porch - Main" (id 201157819664172651), double opt-in OFF,
+        fields: email, name, and the custom field "Ballot choice".
+        Lane opt-ins map to groups: Countdown 201157834936681683,
+        Frank's Law Letter 201157869256573973, Trades 201157879582950726.
+        Joining Porch - Main fires the welcome workflow
+        (id 201158336894207617) automatically. The POST endpoint lives
+        in MAILERLITE_FORM_ACTION at the top of app.js (public by
+        design — never put an API token in this page's code).
         ============================================================
       -->
       <form id="ballot-form" class="card form-card" method="post" action="" novalidate>
