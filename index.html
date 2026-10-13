@@ -58,7 +58,8 @@
         "Porch Ballot" (id 201169207867475059), attached to the group
         "Porch - Main" (id 201157819664172651), double opt-in OFF,
         fields: email, name, and the custom field "Ballot choice".
-        Lane opt-ins map to groups: Countdown 201157834936681683,
+        ONE bundled opt-in (Ben's value-stack call, Oct 12, 2026): every
+        ballot signup joins ALL groups — Countdown 201157834936681683,
         Frank's Law Letter 201157869256573973, Trades 201157879582950726.
         Joining Porch - Main fires the welcome workflow
         (id 201158336894207617) automatically. The POST endpoint lives
@@ -90,14 +91,23 @@
         </div>
         <p class="field-note">Your email <em>is</em> your ballot — it's how Frank knows the vote's real, and how your name gets on the Porch Roll list.</p>
 
-        <fieldset class="lanes">
-          <legend>Put me down for more of the porch <span class="opt">(optional)</span></legend>
-          <label class="check"><input type="checkbox" name="lane" value="countdown"> <span><strong>Countdown</strong> — the road to Dec. 3, and the free Countdown Packet.</span></label>
-          <label class="check"><input type="checkbox" name="lane" value="franks-law"> <span><strong>Frank's Law Letter</strong> — the weekly Porch Letter and the next ballot.</span></label>
-          <label class="check"><input type="checkbox" name="lane" value="trades"> <span><strong>Trades</strong> — for my kids and grandkids. Learn a trade, own the truck.</span></label>
-        </fieldset>
+        <!-- Value stack (Ben's call, Oct 12, 2026): ONE bundled opt-in, not three
+             separate lane checkboxes. Joining the Porch = everything included. -->
+        <div class="value-stack">
+          <h3 class="vs-title">One click — the whole Porch</h3>
+          <p class="vs-sub">No picking through options like a cable package. Join the Porch and all of this comes with it:</p>
+          <ul class="vs-list">
+            <li><span class="vs-item">Your ballot — counted in the Frank's Law vote, every single week</span><span class="vs-value">$5 value</span></li>
+            <li><span class="vs-item">The Countdown Packet — the printable one, for the fridge</span><span class="vs-value">$10 value</span></li>
+            <li><span class="vs-item">The Porch Letter — one letter a week from Frank, plus the Trades word for the kids and grandkids</span><span class="vs-value">$20 value</span></li>
+            <li><span class="vs-item">First to know — merch drops and Porch-only deals before the public hears a word</span><span class="vs-value">$15 value</span></li>
+            <li><span class="vs-item">Members-only videos and Porch nights as they open</span><span class="vs-value">$25 value</span></li>
+          </ul>
+          <p class="vs-total">Total value: <s>$75</s> — <strong>yours FREE.</strong> The only price is showing up.</p>
+        </div>
+        <label class="check vs-check"><input type="checkbox" id="join-porch" name="join" required> <span><strong>YES — count my ballot and put me on the Porch. All of it.</strong></span></label>
 
-        <button class="btn btn-red btn-big" type="submit">CAST YOUR BALLOT</button>
+        <button class="btn btn-red btn-big" type="submit">COUNT MY BALLOT — JOIN THE PORCH</button>
         <p class="trust">One Porch Letter a week. No spam, no selling your info, unsubscribe in one tap. If they ever take Frank down, this list is how he still finds you.</p>
         <p class="form-status" id="ballot-status" role="status" aria-live="polite"></p>
       </form>
