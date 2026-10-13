@@ -121,6 +121,7 @@ h2{font-size:clamp(1.9rem,4.5vw,3rem);text-transform:uppercase;line-height:1.05;
 .vs-list li:last-child{border-bottom:0}
 .vs-list li::before{content:"✓";color:var(--red);font-weight:700;margin-right:.15rem}
 .vs-thumb{width:118px;height:118px;object-fit:cover;border-radius:10px;flex:none;border:1px solid #d8d2c2}
+.vs-media{display:flex;flex-direction:column;align-items:center;gap:.35rem;flex:none}
 @media (max-width:480px){.vs-thumb{width:94px;height:94px}}
 .vs-item{flex:1}
 .vs-value{font-family:"Oswald",sans-serif;font-size:1.7rem;font-weight:700;white-space:nowrap;color:var(--ink)}
