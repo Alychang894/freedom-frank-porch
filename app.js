@@ -9,9 +9,10 @@
    "Porch - Main" (201157819664172651), double opt-in OFF.
    Fields: email / name / ballot_choice. The submit handlers
    POST fields[email], fields[name], fields[ballot_choice] and
-   groups[] (Porch - Main + any lane groups the voter checked:
-   Countdown 201157834936681683 · Frank's Law Letter
-   201157869256573973 · Trades 201157879582950726). Joining
+   groups[] (Porch - Main + ALL three lane groups — one bundled
+   opt-in per Ben's value-stack call, Oct 12, 2026: Countdown
+   201157834936681683 · Frank's Law Letter 201157869256573973 ·
+   Trades 201157879582950726). Joining
    Porch - Main fires welcome workflow 201158336894207617.
    Verified end-to-end Oct 12, 2026: test signup landed Active
    in both groups with name + ballot choice recorded.
@@ -144,8 +145,16 @@ document.getElementById("ballot-form").addEventListener("submit", async (e) => {
     ballotChoice = `Frank's Law ${opt.law} — ${opt.title}`;
   }
 
-  const groups = [...form.querySelectorAll('input[name="lane"]:checked')]
-    .map((c) => LANE_GROUPS[c.value]).filter(Boolean);
+  /* One bundled opt-in (Ben's value-stack call, Oct 12, 2026): the single
+     "join the Porch" checkbox is the whole package — every ballot signup
+     joins all three lane groups. No separate lane picking. */
+  if (!document.getElementById("join-porch").checked) {
+    status.classList.add("error");
+    status.textContent = "One box, neighbor — check it and you're on the Porch. That's the click that counts the ballot.";
+    document.getElementById("join-porch").focus();
+    return;
+  }
+  const groups = Object.values(LANE_GROUPS);
 
   status.textContent = "Counting your ballot…";
   const ok = await submitToMailerLite({ email, name: firstName, ballot_choice: ballotChoice, groups }, status);
