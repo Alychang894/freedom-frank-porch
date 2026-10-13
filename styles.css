@@ -82,15 +82,17 @@ h2{font-size:clamp(1.9rem,4.5vw,3rem);text-transform:uppercase;line-height:1.05;
 .form-card legend{font-family:"Oswald",sans-serif;font-size:1.3rem;font-weight:600;text-transform:uppercase;margin-bottom:.8rem}
 .law-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
 @media(max-width:640px){.law-grid{grid-template-columns:1fr}}
-.law-option{display:block;cursor:pointer}
-.law-option input{position:absolute;opacity:0;pointer-events:none}
-.law-card{border:2px solid var(--line);background:#fff;padding:.7rem .9rem;height:100%;transition:border-color .15s}
+.law-option{display:block;position:relative;cursor:pointer;height:100%}
+.law-option input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.law-card{display:block;position:relative;border:2px solid var(--line);background:#fff;padding:.8rem 1rem .8rem 2.7rem;height:100%;transition:border-color .15s,background .15s}
+.law-card::before{content:"";position:absolute;left:.95rem;top:.95rem;width:1.05rem;height:1.05rem;border:2px solid var(--ink-soft);border-radius:50%;background:#fff}
 .law-option:hover .law-card{border-color:var(--ink)}
 .law-option input:checked + .law-card{border-color:var(--red);box-shadow:inset 0 0 0 1px var(--red);background:#FBF3E4}
+.law-option input:checked + .law-card::before{border-color:var(--red);background:radial-gradient(circle,var(--red) 0 42%,#fff 55%)}
 .law-option input:focus-visible + .law-card{outline:3px solid var(--ink);outline-offset:2px}
-.law-num{font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--red);font-size:.85rem;display:flex;justify-content:space-between}
-.law-pick{color:var(--ink);display:none}
-.law-option input:checked + .law-card .law-pick{display:inline}
+.law-num{font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--red);font-size:.85rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+.law-pick{display:none;color:#fff;background:var(--red);font-size:.72rem;letter-spacing:.06em;padding:.14rem .5rem;border-radius:2px;white-space:nowrap}
+.law-option input:checked + .law-card .law-pick{display:inline-block}
 .law-title{display:block;font-weight:700;font-size:1.08rem;margin-top:.1rem}
 .law-hook{display:block;font-style:italic;color:var(--dim);font-size:.93rem}
 .field{margin-bottom:1rem}

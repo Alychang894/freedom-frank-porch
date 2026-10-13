@@ -13,7 +13,7 @@ Live store / packet: https://freedom-frank-shop.fourthwall.com
   Libre Franklin body, Special Elite accents.
 - `app.js` — countdown timer + form logic.
 - `assets/` — web-sized photos: `hero.jpg` (calendar board), `gate.jpg`
-  (Fort Hood gate, Day 53), `day0.jpg` (Day 0).
+  (Fort Hood gate, Day 53), `day43.jpg` (Frank on the porch at night, Day 43).
 
 ## MailerLite wiring — ⚠️ PLACEHOLDER (read before editing the form)
 The ballot and pledge forms are built and validated but **not yet delivering
