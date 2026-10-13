@@ -35,7 +35,7 @@ a{color:var(--red)}
 
 /* hero */
 .hero{position:relative;padding:0 1rem 3.5rem;max-width:1200px;margin:0 auto}
-.hero-photo img{width:100%;height:min(72vh,760px);object-fit:cover;object-position:center 22%;border-bottom:4px solid var(--ink)}
+.hero-photo img{width:100%;height:min(72vh,760px);object-fit:cover;object-position:42% 30%;border-bottom:4px solid var(--ink)}
 .hero-card{
   position:relative;background:var(--paper);border:3px solid var(--ink);
   box-shadow:10px 10px 0 var(--red);
