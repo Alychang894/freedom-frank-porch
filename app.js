@@ -1,25 +1,54 @@
-/* Freedom Frank — The Porch. Countdown + ballot/pledge form logic. */
+/* Freedom Frank — The Porch. Countdown + free packet signup logic. */
 "use strict";
 
 /* ============================================================
-   MAILERLITE WIRING — LIVE (wired Oct 12, 2026)
+   MAILERLITE WIRING — simplified free-packet offer, Oct 13, 2026
    ------------------------------------------------------------
-   Embedded form "Porch Ballot" (id 201169207867475059) in the
-   Freedom Frank USA MailerLite account, attached to group
-   "Porch - Main" (201157819664172651), double opt-in OFF.
-   Fields: email / name / ballot_choice. The submit handlers
-   POST fields[email], fields[name], fields[ballot_choice] and
-   groups[] (Porch - Main + ALL three lane groups — one bundled
-   opt-in per Ben's value-stack call, Oct 12, 2026: Countdown
-   201157834936681683 · Frank's Law Letter 201157869256573973 ·
-   Trades 201157879582950726). Joining
-   Porch - Main fires welcome workflow 201158336894207617.
-   Verified end-to-end Oct 12, 2026: test signup landed Active
-   in both groups with name + ballot choice recorded.
-   This POST URL is public by design (it is the form's embed
-   endpoint) — never put an API token in this file.
+   The existing MailerLite embedded-form endpoint is retained.
+   The simplified homepage form sends only the visitor's email,
+   plus the fixed source value "Free Packet" in the existing
+   ballot_choice field when MailerLite records the submission.
+   Subscriptions join Porch - Main (which fires the welcome
+   workflow) and Countdown only.
+   This POST URL is public by design — never put an API token here.
    ============================================================ */
 const MAILERLITE_FORM_ACTION = "https://assets.mailerlite.com/jsonp/2706155/forms/201169207867475059/subscribe";
+const PORCH_MAIN_GROUP = "201157819664172651";
+const COUNTDOWN_GROUP = "201157834936681683";
+const PACKET_SOURCE = "Free Packet";
+const PORCH_LETTER_GROUP = "201157869256573973";
+const TRADES_GROUP = "201157879582950726";
+const FOURTHWALL_PACKET_URL = "https://freedom-frank-shop.fourthwall.com/products/the-count-freedom-frank-countdown-packet";
+
+/* Page 2 only: these rows are rendered by renderPacketSuccess() after a
+   successful Step 1 signup. The ballot row is gone; the total below is
+   computed from exactly the four rows shown. */
+const PAGE_TWO_STACK = [
+  {
+    label: "The Countdown Packet — all 137 pages, printed for the fridge",
+    image: "assets/vs-packet.jpg",
+    alt: "The Countdown Packet as a printed booklet on the porch table",
+    value: 10,
+  },
+  {
+    label: "The Porch Letter — one letter a week from Frank",
+    image: "assets/vs-letter.jpg",
+    alt: "A handwritten Porch Letter and lantern on the porch table",
+    value: 20,
+  },
+  {
+    label: "First to know — merch drops and Porch-only deals before the public hears a word",
+    image: "assets/vs-merch.jpg",
+    alt: "Frank's flag hat on the porch table — first merch, Porch members hear first",
+    value: 15,
+  },
+  {
+    label: "Members-only videos and Porch nights as they open",
+    image: "assets/vs-videos.jpg",
+    alt: "A phone on the porch rail playing a Frank video at dusk",
+    value: 25,
+  },
+];
 
 /* ---------- Countdown to Dec 3, 2026, 00:00 America/New_York ---------- */
 /* December in New York is EST (UTC-5), so the target is 05:00 UTC. */
@@ -27,6 +56,8 @@ const TARGET_UTC = Date.UTC(2026, 11, 3, 5, 0, 0);
 
 function pad(n) { return String(n).padStart(2, "0"); }
 function tickCountdown() {
+  const days = document.getElementById("cd-days");
+  if (!days) return;
   const diff = TARGET_UTC - Date.now();
   const el = (id) => document.getElementById(id);
   if (diff <= 0) {
@@ -46,197 +77,187 @@ function tickCountdown() {
 tickCountdown();
 setInterval(tickCountdown, 1000);
 
-/* ---------- Ballot options (from the approved prototype / Phase 0) ---------- */
-/* Weekly ballot (Ben's calls, Oct 12, 2026): THREE options total — TWO
-   featured Laws from us + the Pitch Your Own card. Same two for everyone
-   all week. Votes are tallied at week's end, the winner gets printed, and
-   a fresh pair rotates in from BALLOT_OPTIONS. To rotate: change
-   WEEKLY_FEATURED to the next two keys. */
-const WEEKLY_FEATURED = ["property-taxes", "college"]; // Week of Oct 12, 2026
-const BALLOT_OPTIONS = [
-  { key: "property-taxes", law: "#009", title: "Property Taxes",   hook: "You rent from the county" },
-  { key: "college",        law: "#005", title: "College Degrees",  hook: "Skip college, learn a trade" },
-  { key: "tipping",        law: "#003", title: "Tipping Culture",  hook: "I'm not your HR department" },
-  { key: "self-checkout",  law: "#008", title: "Self-Checkout",    hook: "I don't work here" },
-  { key: "wfh",            law: "#004", title: "Working From Home", hook: "Your couch is not an office" },
-  { key: "wages",          law: "#007", title: "Fast Food Wages",  hook: "That's not a raise, that's math" },
-  { key: "ev",             law: "#006", title: "EV Mandates",      hook: "Don't plug in my truck" },
-  { key: "hoa",            law: "#011", title: "HOAs",             hook: "$400 to be bullied" },
-  { key: "straws",         law: "#010", title: "Paper Straws",     hook: "My straw dissolved" },
-  { key: "left-lane",      law: "#012", title: "Left Lane Drivers", hook: "Get out of the left lane" },
-  { key: "pitch",          law: "YOURS", title: "Pitch Your Own Law", hook: "Your idea, Frank's voice" },
-];
-
-const LANE_GROUPS = {
-  "countdown":  "201157834936681683", // Countdown
-  "franks-law": "201157869256573973", // Frank's Law Letter
-  "trades":     "201157879582950726", // Trades
-};
-const PORCH_MAIN_GROUP = "201157819664172651";
-
-const lawGrid = document.getElementById("law-grid");
-const shownOptions = BALLOT_OPTIONS.filter((o) => o.key === "pitch" || WEEKLY_FEATURED.includes(o.key));
-lawGrid.innerHTML = shownOptions.map((o) => `
-  <label class="law-option">
-    <input type="radio" name="law" value="${o.key}">
-    <span class="law-card">
-      <span class="law-num">Frank's Law ${o.law} <span class="law-pick">✓ Your pick</span></span>
-      <span class="law-title">${o.title}</span>
-      <span class="law-hook">&ldquo;${o.hook}&rdquo;</span>
-    </span>
-  </label>`).join("");
-
-/* Pitch field lives INSIDE the "yours" card (Alyssa's call, Oct 12, 2026):
-   selecting Pitch Your Own Law expands the text box right inside the card
-   so the voter types immediately — no scrolling to a separate block below. */
-const pitchWrapEl = document.getElementById("pitch-wrap");
-const pitchCardEl = lawGrid.querySelector('input[value="pitch"]')?.closest(".law-option")?.querySelector(".law-card");
-if (pitchCardEl && pitchWrapEl) {
-  pitchCardEl.appendChild(pitchWrapEl);
-  pitchWrapEl.addEventListener("click", (e) => e.stopPropagation());
-}
-
-/* Two-step ballot (funnel study, Oct 12, 2026): Step 1 is the vote itself —
-   the commitment. Step 2 (name/email/stack/button) stays locked until a Law
-   is picked, so the email ask lands after the visitor has already said yes
-   to something. */
-const step2 = document.getElementById("step2");
-const step2Fields = step2.querySelectorAll("input, textarea, select, button");
-step2Fields.forEach((f) => { f.disabled = true; });
-
-lawGrid.addEventListener("change", () => {
-  const picked = document.querySelector('input[name="law"]:checked');
-  document.getElementById("pitch-wrap").hidden = !(picked && picked.value === "pitch");
-  if (picked) {
-    step2.classList.remove("locked");
-    step2Fields.forEach((f) => { f.disabled = false; });
-    document.getElementById("step2-note").textContent = "✓ Law picked. Now make it count — where's Frank sending your packet?";
-    if (picked.value === "pitch") {
-      document.getElementById("pitch-text").focus();
-    } else if (window.innerWidth <= 820) {
-      document.getElementById("step2-head-anchor").scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }
-});
-
-/* Sticky mobile CTA bar: appears after the hero, hides while the ballot is
-   on screen and for good once the ballot is counted. */
+/* ---------- Sticky mobile CTA ---------- */
 const stickyCta = document.getElementById("sticky-cta");
-let ballotInView = false;
-let ballotDone = false;
-new IntersectionObserver((entries) => {
-  ballotInView = entries[0].isIntersecting;
-  updateSticky();
-}, { threshold: 0.08 }).observe(document.getElementById("ballot"));
+const packetSection = document.getElementById("get-packet");
+let packetInView = false;
+let packetDone = false;
+
 function updateSticky() {
-  const show = !ballotDone && !ballotInView && window.scrollY > 520;
+  if (!stickyCta) return;
+  const show = !packetDone && !packetInView && window.scrollY > 520;
   stickyCta.hidden = !show;
   document.body.classList.toggle("sticky-on", show);
 }
-window.addEventListener("scroll", updateSticky, { passive: true });
-updateSticky();
 
-/* Thank-you share: copy-link button */
-document.getElementById("share-copy").addEventListener("click", async () => {
-  const status = document.getElementById("share-status");
-  try {
-    await navigator.clipboard.writeText("https://freedomfrankusa.com");
-    status.textContent = "Link copied — go recruit a neighbor.";
-  } catch (err) {
-    status.textContent = "Copy didn't take — the link is freedomfrankusa.com.";
-  }
-});
+if (stickyCta && packetSection) {
+  new IntersectionObserver((entries) => {
+    packetInView = entries[0].isIntersecting;
+    updateSticky();
+  }, { threshold: 0.08 }).observe(packetSection);
+  window.addEventListener("scroll", updateSticky, { passive: true });
+  updateSticky();
+}
 
-/* ---------- Shared submit path ---------- */
-async function submitToMailerLite(payload, statusEl) {
+/* ---------- MailerLite submit paths ---------- */
+async function postToMailerLite(body, statusEl, errorText) {
   if (!MAILERLITE_FORM_ACTION) {
-    /* Placeholder state — be honest with the visitor, log intent for debugging. */
-    console.info("[Porch] MailerLite form endpoint not configured yet. Intended payload:", payload);
+    console.info("[Porch] MailerLite form endpoint not configured. Intended payload:", body.toString());
     statusEl.classList.add("error");
-    statusEl.textContent =
-      "Neighbor, the ballot box is built but the wire to Frank's list isn't hooked up yet — " +
-      "your vote wasn't recorded. Check back shortly; the Porch is finishing the wiring.";
+    statusEl.textContent = "Neighbor, the wire to Frank's list isn't hooked up yet — that wasn't recorded. Check back shortly.";
     return false;
   }
+
   try {
-    const body = new URLSearchParams();
-    body.set("fields[email]", payload.email);
-    body.set("fields[name]", payload.name);
-    if (payload.ballot_choice) body.set("fields[ballot_choice]", payload.ballot_choice);
-    body.append("groups[]", PORCH_MAIN_GROUP);
-    payload.groups.forEach((g) => body.append("groups[]", g));
     const resp = await fetch(MAILERLITE_FORM_ACTION, { method: "POST", body });
     if (!resp.ok) throw new Error("MailerLite returned " + resp.status);
     return true;
   } catch (err) {
-    console.error("[Porch] signup failed:", err);
+    console.error("[Porch] MailerLite signup failed:", err);
     statusEl.classList.add("error");
-    statusEl.textContent = "Something jammed the ballot box. Try once more in a minute, neighbor.";
+    statusEl.textContent = errorText;
     return false;
   }
 }
 
-/* ---------- Ballot form ---------- */
-document.getElementById("ballot-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const form = e.target;
-  const status = document.getElementById("ballot-status");
-  status.classList.remove("error");
-  status.textContent = "";
+async function submitPacketSignup(email, statusEl) {
+  const body = new URLSearchParams();
+  body.set("fields[email]", email);
+  body.set("fields[ballot_choice]", PACKET_SOURCE);
+  body.append("groups[]", PORCH_MAIN_GROUP);
+  body.append("groups[]", COUNTDOWN_GROUP);
+  return postToMailerLite(
+    body,
+    statusEl,
+    "Something went wrong sending your packet request. Try once more in a minute, neighbor."
+  );
+}
 
-  const picked = form.querySelector('input[name="law"]:checked');
-  const firstName = form.first_name.value.trim();
-  const email = form.email.value.trim();
-  if (!picked) { status.classList.add("error"); status.textContent = "Pick a Law first — that's the whole point of a ballot."; return; }
-  if (!firstName) { status.classList.add("error"); status.textContent = "Frank needs a first name to read on the Porch."; form.first_name.focus(); return; }
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { status.classList.add("error"); status.textContent = "That email doesn't look right — check it and cast again."; form.email.focus(); return; }
+async function submitExtras(email, groups, statusEl) {
+  const body = new URLSearchParams();
+  body.set("fields[email]", email);
+  groups.forEach((group) => body.append("groups[]", group));
+  return postToMailerLite(
+    body,
+    statusEl,
+    "Something went wrong adding your extras. Your packet is still yours — try the extras once more in a minute."
+  );
+}
 
-  let ballotChoice;
-  if (picked.value === "pitch") {
-    const pitch = document.getElementById("pitch-text").value.trim();
-    if (!pitch) { status.classList.add("error"); status.textContent = "You picked 'pitch your own' — now pitch it. One sentence."; document.getElementById("pitch-text").focus(); return; }
-    ballotChoice = "PITCH: " + pitch;
-  } else {
-    const opt = BALLOT_OPTIONS.find((o) => o.key === picked.value);
-    ballotChoice = `Frank's Law ${opt.law} — ${opt.title}`;
-  }
+/* ---------- Page 2: claim + stack + optional extras ---------- */
+function renderPacketSuccess(success, email) {
+  const total = PAGE_TWO_STACK.reduce((sum, item) => sum + item.value, 0);
+  const stackRows = PAGE_TWO_STACK.map((item) => `
+    <li>
+      <span class="vs-item">${item.label}</span>
+      <span class="vs-media">
+        <img class="vs-thumb" src="${item.image}" alt="${item.alt}" loading="lazy">
+        <span class="vs-value"><s>$${item.value}</s><span class="vs-free">FREE</span></span>
+      </span>
+    </li>`).join("");
 
-  /* One bundled opt-in (Ben's value-stack call, Oct 12, 2026): the single
-     "join the Porch" checkbox is the whole package — every ballot signup
-     joins all three lane groups. No separate lane picking. */
-  if (!document.getElementById("join-porch").checked) {
-    status.classList.add("error");
-    status.textContent = "One box, neighbor — check it and you're on the Porch. That's the click that counts the ballot.";
-    document.getElementById("join-porch").focus();
-    return;
-  }
-  const groups = Object.values(LANE_GROUPS);
+  success.innerHTML = `
+    <h3>You're in. Your packet is on its way. 🪑</h3>
+    <p>Check your inbox — Frank's welcome email is headed there now. It carries your Countdown Packet and the way to begin.</p>
+    <p>Don't want to wait for the email?</p>
+    <p class="success-actions"><a class="btn btn-red" href="${FOURTHWALL_PACKET_URL}" target="_blank" rel="noopener">CLAIM YOUR PACKET NOW</a></p>
 
-  status.textContent = "Counting your ballot…";
-  const ok = await submitToMailerLite({ email, name: firstName, ballot_choice: ballotChoice, groups }, status);
-  if (ok) {
-    form.hidden = true;
-    ballotDone = true;
-    updateSticky();
-    document.getElementById("ballot-success").hidden = false;
-    document.getElementById("ballot-success").scrollIntoView({ behavior: "smooth", block: "center" });
-  }
-});
+    <div class="value-stack">
+      <h3 class="vs-title">Now that you're in</h3>
+      <p class="vs-sub">Your packet comes first. Here's what else is waiting for you on the Porch:</p>
+      <ul class="vs-list">${stackRows}</ul>
+      <p class="vs-total">Total value: <s>$${total}</s> <span class="vs-free">FREE</span> — <strong>yours, all of it.</strong></p>
+    </div>
 
-/* ---------- Trades Pledge form (signing = Trades lane) ---------- */
-document.getElementById("pledge-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const form = e.target;
-  const status = document.getElementById("pledge-status");
-  status.classList.remove("error");
-  const name = form.pledge_name.value.trim();
-  const email = form.pledge_email.value.trim();
-  if (!name) { status.classList.add("error"); status.textContent = "A pledge needs a name on it."; form.pledge_name.focus(); return; }
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { status.classList.add("error"); status.textContent = "That email doesn't look right — check it and sign again."; form.pledge_email.focus(); return; }
-  status.textContent = "Putting your name on the board…";
-  const ok = await submitToMailerLite({ email, name, ballot_choice: "Signed the Trades Pledge", groups: [LANE_GROUPS["trades"]] }, status);
-  if (ok) {
-    form.hidden = true;
-    document.getElementById("pledge-success").hidden = false;
-  }
+    <div class="extras-panel">
+      <h3>Want the extras too?</h3>
+      <p>Optional — your packet is already yours either way. Skip this and you're done.</p>
+      <label class="check extra-check">
+        <input type="checkbox" class="extra-group" value="${PORCH_LETTER_GROUP}">
+        <span>Also send me the weekly Porch Letter</span>
+      </label>
+      <label class="check extra-check">
+        <input type="checkbox" class="extra-group" value="${TRADES_GROUP}">
+        <span>Also send me the Trades word</span>
+      </label>
+      <button class="btn btn-dark extras-button" type="button">ADD MY EXTRAS</button>
+      <p class="form-status extras-status" role="status" aria-live="polite"></p>
+    </div>
+
+    <p class="signoff">I'm Freedom Frank, and I approve this message.</p>`;
+
+  const extrasButton = success.querySelector(".extras-button");
+  const extrasStatus = success.querySelector(".extras-status");
+  extrasButton.addEventListener("click", async () => {
+    const selectedGroups = Array.from(success.querySelectorAll(".extra-group:checked"))
+      .map((input) => input.value);
+
+    extrasStatus.classList.remove("error");
+    extrasStatus.textContent = "";
+
+    if (!selectedGroups.length) {
+      extrasStatus.classList.add("error");
+      extrasStatus.textContent = "Pick one or both extras — or just claim your packet above. Skipping is fine.";
+      return;
+    }
+
+    const originalText = extrasButton.textContent;
+    extrasButton.disabled = true;
+    extrasButton.textContent = "ADDING YOUR EXTRAS…";
+    extrasStatus.textContent = "Adding your extras…";
+
+    const ok = await submitExtras(email, selectedGroups, extrasStatus);
+    if (ok) {
+      extrasStatus.textContent = "Extras added. You're all set, neighbor.";
+      success.querySelectorAll(".extra-group").forEach((input) => { input.disabled = true; });
+      extrasButton.textContent = "EXTRAS ADDED ✓";
+    } else {
+      extrasButton.disabled = false;
+      extrasButton.textContent = originalText;
+    }
+  });
+}
+
+/* ---------- Email-only packet forms ---------- */
+document.querySelectorAll(".packet-signup-form").forEach((form) => {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const wrap = form.closest(".packet-form-wrap");
+    const emailInput = form.querySelector(".packet-email");
+    const status = form.querySelector(".packet-status");
+    const success = wrap ? wrap.querySelector(".packet-success") : null;
+    const button = form.querySelector('button[type="submit"]');
+    const email = emailInput.value.trim();
+
+    status.classList.remove("error");
+    status.textContent = "";
+
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      status.classList.add("error");
+      status.textContent = "That email doesn't look right — check it and try again.";
+      emailInput.focus();
+      return;
+    }
+
+    const originalButtonText = button.textContent;
+    button.disabled = true;
+    button.textContent = "SENDING YOUR PACKET…";
+    status.textContent = "Sending your packet request…";
+
+    const ok = await submitPacketSignup(email, status);
+    if (ok) {
+      packetDone = true;
+      updateSticky();
+      form.hidden = true;
+      if (success) {
+        renderPacketSuccess(success, email);
+        success.hidden = false;
+        success.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    } else {
+      button.disabled = false;
+      button.textContent = originalButtonText;
+    }
+  });
 });
