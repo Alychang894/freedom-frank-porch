@@ -42,13 +42,13 @@ a{color:var(--red-bright)}
 /* hero */
 .hero{position:relative;padding:0 0 3.5rem;max-width:none;margin:0 auto}
 .hero-photo{margin:0}
-.hero-photo img{width:100%;height:min(78vh,780px);object-fit:cover;object-position:50% 30%;border-bottom:4px solid var(--gold)}
+.hero-photo img{width:100%;height:min(78vh,780px);object-fit:cover;object-position:50% 40%;border-bottom:4px solid var(--gold)}
 .hero-card{
   position:relative;background:var(--paper);border:3px solid var(--line);
   box-shadow:10px 10px 0 var(--red);
-  max-width:860px;margin:-7.5rem auto 0;padding:2rem 2rem 2.25rem;text-align:center;
+  max-width:860px;margin:2.75rem auto 0;padding:2rem 2rem 2.25rem;text-align:center;
 }
-@media(max-width:640px){.hero-card{margin-top:-3.5rem;padding:1.5rem 1.1rem}}
+@media(max-width:640px){.hero-card{margin-top:1.75rem;padding:1.5rem 1.1rem}}
 .kicker{text-transform:uppercase;letter-spacing:.14em;color:var(--red-bright);font-size:.95rem;margin:0 0 .5rem}
 .hero-card h1{font-size:clamp(2.3rem,6vw,4.2rem);line-height:1.04;font-weight:700;margin:.2rem 0 1.2rem;text-transform:uppercase}
 .hero-form-label{font-size:1.08rem;max-width:600px;margin:0 auto 0}
